@@ -1,5 +1,11 @@
 # TerrificTacosForResonate
-A project the demonstrates how to implement the Terrific Tacos workflow use case use the Resonate durable promises framework
+A project the demonstrates how to implement the Terrific Tacos workflow use case use the Resonate durable promises framework.
+
+- [System Requirements](#system-requirements)
+- [Building the Resonate Server](#building-the-resonate-server)
+- [Starting the Resonate Server](#starting-the-resonate-server)
+- [Getting the Terrfic Tacos source code](#getting-the-terrfic-tacos-source-code)
+- [Running Terrfic Tacos for Resonate](#running-terrfic-tacos-for-resonate)
 
 # System Requirements
 
