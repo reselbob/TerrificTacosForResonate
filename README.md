@@ -38,6 +38,7 @@ curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 sudo npm install ts-node -g
+
 ```
 
 # Building the Resonate Server
@@ -48,12 +49,14 @@ git clone https://github.com/resonatehq/resonate.git
 cd resonate
 
 go build -o resonate
+
 ```
 
 # Starting the Resonate Server
 
 ```
 ./resonate serve
+
 ```
 
 You'll get output similar to the following:
