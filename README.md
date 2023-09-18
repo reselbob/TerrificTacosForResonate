@@ -70,3 +70,15 @@ time=2023-09-18T16:02:33.950Z level=INFO msg="starting http server" addr=0.0.0.0
 time=2023-09-18T16:02:33.969Z level=INFO msg="starting metrics server" addr=:9090
 ^Ctime=2023-09-18T16:03:02.922Z level=INFO msg="shutdown signal recieved, shutting down" signal=interrupt
 ```
+
+# Getting the Terrfic Tacos source code
+
+```bash
+git clone https://github.com/reselbob/TerrificTacosForResonate.git
+```
+
+# Running Terrfic Tacos for Resonate
+
+```bash
+TO BE PROVIDED
+```
