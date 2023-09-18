@@ -56,7 +56,6 @@ go build -o resonate
 
 ```
 ./resonate serve
-
 ```
 
 You'll get output similar to the following:
