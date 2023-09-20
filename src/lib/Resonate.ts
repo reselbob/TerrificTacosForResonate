@@ -14,24 +14,24 @@ export class Resonate<T> {
         this.rootContext = new Context(this.resonateServer, this.id);
     }
 
-    registerFunction(func: Function, params: any): Promise<any> {
+    async registerFunction(func: Function, params: any): Promise<any> {
         if (typeof func !== 'function') {
             throw new Error("Expected a function for registration");
         }
         const functionName: string = func.name
         this.functions[functionName] = func;
-        return this.executeFunction(func, this.id, params);
+        return await this.executeFunction(func, this.id, params);
         //return (this.id, params) => this.executeFunction(name, this.id, params);
     }
 
-    executeFunction(func: Function, id: string, params: any) {
+    async executeFunction(func: Function, id: string, params: any): Promise<any> {
         //const func = this.functions[functionName];
         //if (!func) {
             //throw new Error(`Function "${func..name}" is not registered.`);
         //}
         const asCommand = {functionName: func.name, args: params};
         const subContext = new Context(this.resonateServer, `${this.id}.${id}`, asCommand);
-        return subContext.bindToDurablePromise(func, params, 60 * 60 * 1000);
+        return await subContext.bindToDurablePromise(func, params, 60 * 60 * 1000);
     }
 
     recover() {
@@ -86,7 +86,7 @@ export class Context<T> {
         if (createResponse.state === 'RESOLVED') {
             resultPromise = Promise.resolve(createResponse.value);
         } else if (createResponse.state === 'REJECTED') {
-            resultPromise = Promise.reject(createResponse.value);
+            resultPromise = Promise.reject(createResponse);
         } else {
             try {
                 //const result = await this.functions[func..name](args);

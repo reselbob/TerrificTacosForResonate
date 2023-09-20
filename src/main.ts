@@ -25,7 +25,6 @@ const params = extractFunctionParameters(func);
 resonate.registerFunction(func,params)
     .then( result => {
         console.log(result);
-
     }).catch(error => {
     console.log(error);
     })
@@ -56,7 +55,12 @@ express.post('/transfer/:id', async (req, res) => {
         let conf = await resonate.executeFunction(func, id, { source, target, amount });
         res.status(200).json({ message: conf });
     } catch (error: any) {
-        res.status(500).json({ error: error.message });
+        if(error.state !== 'REJECTED'){
+            res.status(500).json({ error: "Something very wrong is happening" });
+        }else{
+            res.status(200).json({ message: "Promise was rejected, but that's OK." });
+        }
+
     }
 
 });
