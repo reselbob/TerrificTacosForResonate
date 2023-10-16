@@ -3,7 +3,6 @@ import {Customer} from "../model/Customer";
 import {Order} from "../model/Order";
 import {CreditCard} from "../model/CreditCard";
 import {OrderItem} from "../model/OrderItem";
-import {ISignal} from "../model/ISignal";
 import {IOrderItem} from "../model/IOrderItem";
 
 /**
@@ -35,20 +34,6 @@ export class Randomizer {
 
     public static getOrderItem(): IOrderItem {
         return this.getRandomOrderItem();
-    }
-
-    public static getRandomOrderSubmittedSignal(numberOfItemsInOrder: number, restaurant: string): ISignal{
-        const customer = this.getCustomer();
-        const order = this.getOrder(customer, numberOfItemsInOrder);
-        const signal: ISignal = {
-            id: null,
-            timeStamp: null,
-            name: "orderSubmitted",
-            restaurant: restaurant,
-            order: order,
-        }
-
-        return signal;
     }
 
     private static getRandomOrderItem(): OrderItem{
