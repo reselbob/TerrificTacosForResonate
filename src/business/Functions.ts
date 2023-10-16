@@ -62,8 +62,4 @@ async function closeOrder(context: Context<{  order : IOrder }>, param: {  order
 
     return new OrderStatus(param.order, Status.CLOSED);
 }
-
-
-
-
 export {submitOrder, startOrder, finishOrder, serveOrder, payForOrder, completeOrder, closeOrder }
