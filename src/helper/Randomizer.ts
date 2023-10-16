@@ -4,6 +4,7 @@ import {Order} from "../model/Order";
 import {CreditCard} from "../model/CreditCard";
 import {OrderItem} from "../model/OrderItem";
 import {ISignal} from "../model/ISignal";
+import {IOrderItem} from "../model/IOrderItem";
 
 /**
  * This class is a helper that assigned random value to the properties
@@ -32,7 +33,7 @@ export class Randomizer {
         return new CreditCard(customer.firstName, customer.lastName, this.generateMockCreditCardNumber())
     }
 
-    public static getOrderItem(): OrderItem {
+    public static getOrderItem(): IOrderItem {
         return this.getRandomOrderItem();
     }
 

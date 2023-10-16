@@ -4,7 +4,7 @@
   "description": "A project that demonstrates the concepts behind event sourcing written in TypeScript",
   "main": "index.ts",
   "scripts": {
-    "test": "mocha --require ts-node/register --exit ./test/httpTests.ts",
+    "test": "mocha --require ts-node/register --exit ./test/tests.ts",
     "start": "ts-node src/WebServer.ts",
     "gensignal": "ts-node src/helper/signalgen.ts"
   },
@@ -21,10 +21,10 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "joi": "^17.9.2",
+    "sqlite3": "^5.1.6",
     "url": "^0.11.3",
     "uuid": "^9.0.0",
-    "winston": "^3.9.0",
-    "sqlite3": "^5.1.6"
+    "winston": "^3.9.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
@@ -43,6 +43,7 @@
     "chai-http": "^4.4.0",
     "eslint-plugin-deprecation": "^1.2.1",
     "mocha": "^10.2.0",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"

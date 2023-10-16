@@ -1,6 +1,8 @@
+import {Logger} from "../logger";
 
-export class ResonateServer {
-    private baseUrl: string
+export class PromiseManager {
+    private readonly baseUrl: string
+    private logger = new Logger()
 
     constructor(baseUrl = '/') {
         this.baseUrl = baseUrl;
@@ -23,8 +25,7 @@ export class ResonateServer {
         const obj = {id: id, param: param, timeout: timeout};
         const str = JSON.stringify(obj);
 
-
-        const response = await fetch(`${this.baseUrl}promises/${id}/create`, {
+        const response = await fetch(`${this.baseUrl}/promises/${id}/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +47,7 @@ export class ResonateServer {
     async cancelPromise(id: string, value: any) {
         value.data = value.data ? btoa(JSON.stringify(value.data)) : value.data;
 
-        const response = await fetch(`${this.baseUrl}/promises${id}/cancel`, {
+        const response = await fetch(`${this.baseUrl}/promises/${id}/cancel`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +66,7 @@ export class ResonateServer {
     async resolvePromise(id: string, value: any) {
         value.data = value.data ? btoa(JSON.stringify(value.data)) : value.data;
 
-        const response = await fetch(`${this.baseUrl}/promises${id}/resolve`, {
+        const response = await fetch(`${this.baseUrl}/promises/${id}/resolve`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -73,10 +74,18 @@ export class ResonateServer {
             body: JSON.stringify({id: id, value: value})
         });
 
-        const data = await response.json();
-        if (data && data.value && data.value.data) {
-            data.value.data = JSON.parse(atob(data.value.data));
+        this.logger.logInfo(`The response status from Go server resolve is ${response.status}`)
+
+        let data:any;
+        try{
+            data = await response.json();
+            if (data && data.value && data.value.data) {
+                data.value.data = JSON.parse(atob(data.value.data));
+            }
+        }catch(error: any){
+            this.logger.logError(error);
         }
+
         return data;
     }
 
