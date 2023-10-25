@@ -11,13 +11,11 @@ export class OrderStatus implements IOrderStatus {
     constructor(order: IOrder, status: Status) {
         this.order = order;
         this.id = this.order.id;
-        this.creditCard = this.order.creditCard;
         this.orderItems = this.order.orderItems;
         this.customer  = this.order.customer;
         this.status = status
     }
 
-    creditCard: CreditCard;
     customer: Customer;
     id: string;
     orderItems: OrderItem[];

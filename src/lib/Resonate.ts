@@ -13,10 +13,6 @@ export class Resonate<T> {
         this.rootContext = new Context(this.promiseManager, this.id);
     }
 
-    registerFunction<I, O>(name : string, func: (c : Context<I>, p : I) => Promise<O>): void {
-        this.functions[name] = func;
-    }
-
     registerModule(module: any): void {
         for (let key in module) {
             this.functions[key] = module[key];
@@ -26,7 +22,8 @@ export class Resonate<T> {
     async executeFunction(name: string, id: string, params: any): Promise<any> {
         const asCommand = {functionName: name, args: params};
         const subContext = new Context(this.promiseManager, `${this.id}.${id}`, asCommand);
-        return await subContext.bindToDurablePromise(this.functions[name], params, 60 * 60 * 1000);
+        const result =  await subContext.bindToDurablePromise(this.functions[name], params, 60 * 60 * 1000);
+        return result;
     }
 
     recover() {
@@ -79,6 +76,7 @@ export class Context<T> {
         let resultPromise;
 
         if (createResponse.state === 'RESOLVED') {
+            createResponse.value.idempotentStatus = createResponse.httpStatus
             resultPromise = Promise.resolve(createResponse.value);
         } else if (createResponse.state === 'REJECTED') {
             resultPromise = Promise.reject(createResponse);
@@ -88,6 +86,7 @@ export class Context<T> {
                 const result = await func(this, args);
                 const resolveResponse = await this.resonateServer.resolvePromise(this.id, {ikey: this.id, data: result});
                 if(resolveResponse && resolveResponse.value){
+                    resolveResponse.value.idempotentStatus = createResponse.httpStatus
                     resultPromise = Promise.resolve(resolveResponse.value);
                 }else{
                     resultPromise = Promise.resolve();

@@ -12,14 +12,14 @@ import {IOrderItem} from "../model/IOrderItem";
 
 export class Randomizer {
     public static getCustomer(): Customer {
-        const firstName = faker.name.firstName();
-        const lastName = faker.name.lastName();
+        const firstName = faker.person.firstName();
+        const lastName = faker.person.lastName();
         const email = `${firstName}.${lastName}@email.com`;
         return new Customer(firstName, lastName, email)
     }
 
     public static getOrder(customer: Customer, numberOfItems: number): Order {
-        const order  = new Order(customer, Randomizer.getCreditCard(customer));
+        const order  = new Order(customer);
 
         for(let i = 0; i < numberOfItems; i++){
             order.add(this.getRandomOrderItem());

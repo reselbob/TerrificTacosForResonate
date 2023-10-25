@@ -7,59 +7,67 @@ import {OrderStatus} from "../model/OrderStatus";
 
 let logger = new Logger()
 
-async function submitOrder(context: Context<{ order : IOrder }>, param: { order : IOrder }): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning submitOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Executing submitOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Finished submitOrder for ${JSON.stringify(param.order)}`);
+async function submitOrder(context: Context<{ order : IOrder }>, param: IOrder): Promise<IOrderStatus> {
+    const myOrder = param as IOrder
+    logger.logInfo(`Beginning submitOrder for ${param.id}`);
+    logger.logInfo(`Executing submitOrder for ${param.id}`);
+    logger.logInfo(`Finished submitOrder for ${param.id}`);
 
-    return new OrderStatus(param.order, Status.SUBMITTED);
+    return new OrderStatus(param, Status.SUBMITTED);
 
 }
-async function startOrder(context: Context<{  order : IOrder }>, param: {  order : IOrder}): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning startOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Executing startOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Finished startOrder for ${JSON.stringify(param.order)}`);
+async function startOrder(context: Context<{  order : IOrder }>, param: IOrder): Promise<IOrderStatus> {
+    logger.logInfo(`Beginning startOrder for ${param.id}`);
+    logger.logInfo(`Executing startOrder for ${param.id}`);
+    logger.logInfo(`Finished startOrder for ${param.id}`);
 
-    return new OrderStatus(param.order, Status.STARTED);
+    return new OrderStatus(param, Status.STARTED);
 }
 
-async function finishOrder(context: Context<{  order : IOrder }>, param: {  order : IOrder  }): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning finishOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Executing finishOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Finished finishOrder for ${JSON.stringify(param.order)}`);
+async function finishOrder(context: Context<{ order : IOrder }>, param: IOrder): Promise<IOrderStatus> {
+    logger.logInfo(`Beginning finishOrder for ${param.id}`);
+    logger.logInfo(`Executing finishOrder for ${param.id}`);
+    logger.logInfo(`Finished finishOrder for ${param.id}`);
 
-    return new OrderStatus(param.order, Status.FINISHED);
+    return new OrderStatus(param, Status.FINISHED);
 }
 
-async function serveOrder(context: Context<{ order : IOrder, server: string  }>, param: { order : IOrder, server: string }): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning serveOrder for ${JSON.stringify(param.order)} by server ${param.server}`);
-    logger.logInfo(`Executing serveOrder for ${JSON.stringify(param.order)} by server ${param.server}`);
-    logger.logInfo(`Finished serveOrder for ${JSON.stringify(param.order)} by server ${param.server}`);
+async function serveOrder(context: Context<{ order : IOrder }>, param: IOrder): Promise<IOrderStatus> {
+    logger.logInfo(`Beginning serveOrder for ${param.id}`);
+    logger.logInfo(`Executing serveOrder for ${param.id}`);
+    logger.logInfo(`Finished serveOrder for ${param.id}`);
 
-    return new OrderStatus(param.order, Status.SERVED);
+    return new OrderStatus(param, Status.SERVED);
 }
 
-async function payForOrder(context: Context<{ order : IOrder, creditCard: ICreditCard }>, param: { order : IOrder, creditCard: ICreditCard }): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning payForOrder for ${JSON.stringify(param.order)} with credit card:  ${JSON.stringify(param.creditCard)}`);
-    logger.logInfo(`Executing payForOrder for ${JSON.stringify(param.order)} with credit card:  ${JSON.stringify(param.creditCard)}`);
-    logger.logInfo(`Finished payForOrder for ${JSON.stringify(param.order)} with credit card:  ${JSON.stringify(param.creditCard)}`);
+async function payForOrder(context: Context<{ order : IOrder, creditCard: ICreditCard }>, param: { order: IOrder, creditCard: ICreditCard}): Promise<IOrderStatus> {
+    logger.logInfo(`Beginning payForOrder for ${param.order.id} with credit card:  ${param.creditCard.number}`);
+    logger.logInfo(`Executing payForOrder for ${param.order.id} with credit card:  ${param.creditCard.number}`);
+    logger.logInfo(`Finished payForOrder for ${param.order.id} with credit card:  ${param.creditCard.number}`);
 
     return new OrderStatus(param.order, Status.PAID);
 }
 
-async function completeOrder(context: Context<{  order : IOrder }>, param: {  order : IOrder  }): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning completeOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Executing completeOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Finished completeOrder for ${JSON.stringify(param.order)}`);
+async function completeOrder(context: Context<{ order : IOrder }>, param: IOrder): Promise<IOrderStatus> {
+    logger.logInfo(`Beginning completeOrder for ${param.id}`);
+    logger.logInfo(`Executing completeOrder for ${param.id}`);
+    logger.logInfo(`Finished completeOrder for ${param.id}`);
 
-    return new OrderStatus(param.order, Status.COMPLETED);
+    return new OrderStatus(param, Status.COMPLETED);
 }
 
-async function closeOrder(context: Context<{  order : IOrder }>, param: {  order : IOrder  }): Promise<IOrderStatus> {
-    logger.logInfo(`Beginning closeOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Executing closeOrder for ${JSON.stringify(param.order)}`);
-    logger.logInfo(`Finished closeOrder for ${JSON.stringify(param.order)}`);
+async function closeOrder(context: Context<{ order : IOrder }>, param: IOrder): Promise<IOrderStatus> {
+    logger.logInfo(`Beginning closeOrder for ${param.id}`);
+    logger.logInfo(`Executing closeOrder for ${param.id}`);
+    logger.logInfo(`Finished closeOrder for ${param.id}`);
 
-    return new OrderStatus(param.order, Status.CLOSED);
+    return new OrderStatus(param, Status.CLOSED);
 }
-export {submitOrder, startOrder, finishOrder, serveOrder, payForOrder, completeOrder, closeOrder }
+
+async function ping(context: Context<{ message : string }>, param: { message : string }): Promise<void> {
+    logger.logInfo(`Starting ping for ${param.message}`);
+    logger.logInfo(`Pinging ${param.message}}`);
+    logger.logInfo(`Finished ping for ${param.message}`);
+}
+
+export {submitOrder, startOrder, finishOrder, serveOrder, payForOrder, completeOrder, closeOrder, ping }
